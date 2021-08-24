@@ -1,0 +1,16 @@
+.silhouette {
+    filter: contrast(0%) brightness(0%) !important;
+}
+
+.dragon-image {
+    max-height: 100%;
+    width: auto;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}

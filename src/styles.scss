@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  font-family: 'DyslexicFZF' !important;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.background {
+  /* The image used */
+  background-image: url("assets/images/background.jpg");
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.mat-dialog-container {
+  background: rgb(226,226,226);
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+@font-face {
+  font-family: 'DyslexicFZF';
+  src: url('assets/fonts/DyslexicFZF-Regular.ttf');
+}

@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <p>Како се викаш?</p>
+  <mat-form-field appearance="fill">
+    <input matInput [(ngModel)]="data">
+  </mat-form-field>
+  <div [hidden]="!(submitted && !data)" style="font-size: 16px;" class="text-danger">
+    Внеси го твоето име за да продолжиш.
+  </div>
+</div>
+<div mat-dialog-actions class="text-center d-block">
+  <button mat-button (click)="onNoClick()">Откажи</button>
+  <button mat-button (click)="onYesClick()" cdkFocusInitial color="primary">Започни</button>
+</div>

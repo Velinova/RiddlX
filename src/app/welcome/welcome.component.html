@@ -1,0 +1,37 @@
+<div class="game-name text-center pt-3">
+  <div class="adventures pt-5">Авантурите на</div>
+  <div class="riddlex">Ридликс</div>
+</div>
+
+<div *ngIf="firstRun" class="text-center pt-3">
+  <div class="text-container p-3 mb-4">
+    Здраво другарче! Јас сум змејчето Ридликс. Играјќи си со другарите, се загубив во шумата. Дали ќе ми помогнеш да се вратам назад? За да започнеме кликни на копчето „Започни“ подолу.
+  </div>
+  <div class="dragon">
+    <img src="../assets/images/dragons/Academic_Dragon_Baby.png" />
+  </div>
+
+  <button mat-raised-button color="accent" class="btn-start" (click)="openModal()">
+    Започни
+  </button>
+</div>
+
+<div *ngIf="!firstRun" class="game-started text-center pt-5">
+  <div class="greeting">Здраво {{ name }}!</div>
+  <div class="buttons-wrapper mt-5">
+    <button mat-raised-button color="accent" class="btn-start d-block w-100" routerLink="/learn">
+      Учи
+    </button>
+    <button mat-raised-button color="accent" class="btn-start d-block w-100" routerLink="/practice">
+      Вежбај
+    </button>
+    <button mat-raised-button color="accent" [disabled]="!excercisePassed" class="btn-start d-block w-100" routerLink="/play"
+            matTooltip="Прво треба да завршиш со вежбите за да продолжиш со играта."
+            [matTooltipDisabled]="excercisePassed">
+      Играј
+    </button>
+    <button mat-raised-button color="accent" class="btn-start d-block w-100" routerLink="/achievements">
+      Види ја дружината
+    </button>
+  </div>
+</div>
