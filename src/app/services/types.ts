@@ -10,3 +10,15 @@ export enum AchievementType {
   Practice = 1,
   Play = 2
 }
+
+export class UserModel {
+  constructor(
+    public id?: string,
+    public name?: string,
+    public playDragons?: Dragon[],
+    public practiceDragons?: Dragon[]
+  ) {
+    this.playDragons = [];
+    this.practiceDragons = [];
+  }
+}

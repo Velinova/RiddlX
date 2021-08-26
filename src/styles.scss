@@ -27,6 +27,10 @@ body, html {
     width: 100%;
 }
 
+.mat-tab-body-content {
+  overflow-x: hidden !important;
+}
+
 @font-face {
   font-family: 'DyslexicFZF';
   src: url('assets/fonts/DyslexicFZF-Regular.ttf');

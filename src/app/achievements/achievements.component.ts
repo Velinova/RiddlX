@@ -1,6 +1,11 @@
 import { Component } from "@angular/core";
 import { DragonService } from "../services/dragon.service";
 import { AchievementType, Dragon } from "../services/types";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  DocumentReference,
+} from '@angular/fire/firestore';
 
 @Component({
   styleUrls: ['./achievements.component.scss'],

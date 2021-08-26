@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AchievementsComponent } from './achievements/achievements.component';
+import { LearnComponent } from './learn/learn.component';
 import { PracticeComponent } from './practice/practice.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: "achievements",
     component: AchievementsComponent
+  },
+  {
+    path: "learn",
+    component: LearnComponent
   }
 ];
 

@@ -14,7 +14,7 @@ import { NameDialogComponent } from './name-dialog/name-dialog.component';
 import { PracticeComponent } from './practice/practice.component';
 import { CommonService } from './services/common.service';
 import { WelcomeComponent } from './welcome/welcome.component';
-
+import { LearnComponent } from './learn/learn.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +22,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     WelcomeComponent,
     PracticeComponent,
     AchievementsComponent,
+    LearnComponent,
     NameDialogComponent
   ],
   imports: [
@@ -31,7 +32,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase, "RiddleX")
+    AngularFireModule.initializeApp(environment.firebase, "RiddlX")
   ],
   entryComponents: [],
   providers: [CommonService, CookieService],
