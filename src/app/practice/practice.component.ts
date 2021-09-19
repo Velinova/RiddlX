@@ -1,6 +1,9 @@
 import { Component } from "@angular/core";
 import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { LetterService } from "../services/letter.service";
+import { StreamState } from "../interfaces";
+import { AudioService } from "../services/audio.service";
+import { SoundsService } from "../services/sounds.service";
 
 @Component({
   templateUrl: './practice.component.html',
@@ -14,12 +17,37 @@ export class PracticeComponent {
   hideNext: boolean;
   isCorrect: boolean;
   imageLetters: any[];
-  constructor(private letterService: LetterService) {
+
+  // #region Player
+
+  state: StreamState;
+  files: Array<any> = [];
+
+  // #endregion Player
+
+  constructor(
+    private audioService: AudioService,
+    private soundService: SoundsService,
+    private letterService: LetterService) {
     this.answers = [];
     this.imageSrc = '';
     this.isWrong = false;
     this.hideNext = false;
     this.isCorrect = false;
+
+    this.state = {
+      playing: false,
+      readableCurrentTime: '',
+      readableDuration: '',
+      duration: undefined,
+      currentTime: undefined,
+      canplay: false,
+      error: false
+    };
+
+    this.soundService.getFiles().subscribe(files => {
+      this.files = files;
+    });
 
     this.letters = this.letterService.getLetters();
     this.imageLetters = this.letterService.getLetters();
@@ -73,5 +101,11 @@ export class PracticeComponent {
 
   isUsed(letter: string): boolean {
     return this.imageLetters.find((x) => { return x.Letter === letter; }).isShown;
+  }
+
+  listen(): void {
+    let word = this.imageSrc.replace('.png', '');
+    let wordSound = this.files.filter((file) => { return file.text.toLowerCase() === word.toLowerCase() && file.text.length > 1; })[0];
+    this.audioService.playStream(wordSound.url).subscribe(() => { });
   }
 }

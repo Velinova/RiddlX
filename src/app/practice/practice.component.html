@@ -5,7 +5,7 @@
       <mat-card style="width: 350px; background: rgba(255,255,255, .7);">
         <img [src]="'/assets/images/letters/' + imageSrc" mat-card-image />
         <mat-card-actions>
-          <button mat-raised-button color="accent" class="w-100 fs-4 p-2">
+          <button mat-raised-button color="accent" class="w-100 fs-4 p-2" (click)="listen()">
             <i class="fas fa-volume-up"></i>&nbsp;Слушни
           </button>
         </mat-card-actions>
