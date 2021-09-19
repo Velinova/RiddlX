@@ -1,0 +1,89 @@
+.letter {
+  color: white;
+  font-size: 2.8rem;
+  text-align: center;
+}
+
+.drop-zone-wrapper {
+  height: 130px;
+  width: 130px;
+  background: rgba(255,255,255,.7);
+  border-radius: 15px;
+}
+
+.drop-zone {
+  line-height: 0.6;
+  text-align: center;
+  font-size: 100px;
+}
+
+.consonant {
+  background: #d2234c;
+}
+
+.vowel {
+  background: #4545cc;
+}
+
+.consonant-ltr {
+  color: #d2234c;
+}
+
+.vowel-ltr {
+  color: #4545cc;
+}
+
+.word-guess {
+  color: white;
+  font-size: 100px !important;
+  font-weight: 700;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1399px) {
+  .letter {
+    font-size: 2rem;
+  }
+
+  .drop-zone-wrapper {
+    height: 110px;
+    width: 110px;
+    background: rgba(255,255,255,.7);
+  }
+
+  .drop-zone {
+    line-height: 0.6;
+    text-align: center;
+    font-size: 80px;
+  }
+
+  .word-guess {
+    color: white;
+    font-size: 70px !important;
+    font-weight: 700;
+  }
+}
+
+.wrong {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}

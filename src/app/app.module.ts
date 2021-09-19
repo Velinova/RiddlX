@@ -4,17 +4,20 @@ import { AngularFireModule } from "@angular/fire";
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../environments/environment';
 import { AchievementsComponent } from './achievements/achievements.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BackComponent } from './back.component';
+import { LearnComponent } from './learn/learn.component';
 import { MaterialModule } from './material.module';
 import { NameDialogComponent } from './name-dialog/name-dialog.component';
 import { PracticeComponent } from './practice/practice.component';
 import { CommonService } from './services/common.service';
+import { LetterService } from './services/letter.service';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { LearnComponent } from './learn/learn.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,8 @@ import { LearnComponent } from './learn/learn.component';
     PracticeComponent,
     AchievementsComponent,
     LearnComponent,
-    NameDialogComponent
+    NameDialogComponent,
+    BackComponent
   ],
   imports: [
     FormsModule,
@@ -31,11 +35,12 @@ import { LearnComponent } from './learn/learn.component';
     BrowserModule,
     MaterialModule,
     AppRoutingModule,
+    FontAwesomeModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase, "RiddlX")
   ],
   entryComponents: [],
-  providers: [CommonService, CookieService],
+  providers: [CommonService, CookieService, LetterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,4 @@
+<back></back>
 <div class="container p-4">
   <mat-tab-group>
     <mat-tab>
@@ -6,18 +7,19 @@
       </ng-template>
 
       <div class="row">
-        <div class="col-xs-4 col-md-2" *ngFor="let dragon of practiceDragons">
+        <div class="col-xs-4 col-md-2 p-4" *ngFor="let dragon of practiceDragons">
           <img [attr.src]="'../../assets/images/dragons/' + dragon.Name" [class.silhouette]="true" class="dragon-image" />
         </div>
       </div>
     </mat-tab>
+
     <mat-tab>
       <ng-template mat-tab-label>
         <span class="fw-bold text-light fs-2">Дружина за играње</span>
       </ng-template>
 
       <div class="row">
-        <div class="col-xs-4 col-md-2" *ngFor="let dragon of playDragons">
+        <div class="col-xs-4 col-md-2 p-4" *ngFor="let dragon of playDragons">
           <img [attr.src]="'../../assets/images/dragons/' + dragon.Name" [class.silhouette]="true" class="dragon-image" />
         </div>
       </div>

@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-* {
+*:not(.fas):not(.fa) {
   font-family: 'DyslexicFZF' !important;
 }
 
@@ -29,6 +29,10 @@ body, html {
 
 .mat-tab-body-content {
   overflow-x: hidden !important;
+}
+
+mat-card {
+    border-radius: 15px !important;
 }
 
 @font-face {

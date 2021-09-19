@@ -3,12 +3,9 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\achievements",
-    "\\src\\app\\learn",
-    "\\src\\app\\services",
     "\\src\\app\\welcome",
-    "\\src\\environments"
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\app\\services\\types.ts",
+  "SelectedNode": "\\src\\styles.scss",
   "PreviewInSolutionExplorer": false
 }
