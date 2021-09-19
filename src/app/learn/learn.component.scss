@@ -1,0 +1,41 @@
+.word {
+  font-size: 50px;
+}
+
+.letter {
+  font-size: 60px !important;
+}
+
+.nav-left,
+.nav-right {
+  color: #fff;
+  position: fixed;
+  font-size: larger;
+}
+
+.nav-left {
+  top: 50%;
+  left: 15%;
+  position: fixed;
+}
+
+.nav-right {
+  top: 50%;
+  right: 15%;
+  position: fixed;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding: 0 40px;
+  max-width: 400px;
+  position: relative;
+  margin-top: 10rem !important;
+}
+
+#content {
+  margin: auto;
+  padding: auto;
+}

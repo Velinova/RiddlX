@@ -1,0 +1,42 @@
+<back></back>
+<div class="nav-left text-center">
+  <button mat-fab color="accent" (click)="previous()" *ngIf="letterIndex != 0">
+    <i class="fas fa-angle-left fa-2x"></i>
+  </button>
+  <div *ngIf="letterIndex != 0">
+    Претходна буква
+  </div>
+</div>
+
+<div class="nav-right text-center">
+  <button mat-fab color="accent" (click)="next()" *ngIf="letterIndex != 30">
+    <i class="fas fa-angle-right fa-2x"></i>
+  </button>
+  <div *ngIf="letterIndex != 30">
+    Следна буква
+  </div>
+</div>
+
+<div id="container">
+  <div id="content">
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <mat-card style="width: 400px !important; background: rgba(255,255,255, .7);" class="text-center">
+        <div class="text-center letter m-4">
+          {{ letter }}
+        </div>
+        <img [src]="'/assets/images/letters/' + currentLetter.Image" mat-card-image style="width: 400px !important;"/>
+        <div class="text-center word m-3">
+          {{ word }}
+        </div>
+      </mat-card>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+      <div class="clearfix;">
+        <button mat-raised-button color="accent" style="width: 350px;" (click)="listen()">
+          <i class="fas fa-volume-up" style="margin-right: 5px;"></i>
+          <span>Слушни</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
