@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
 import { AchievementsComponent } from './achievements/achievements.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -37,7 +38,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     AppRoutingModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(environment.firebase, "RiddlX")
+    AngularFireModule.initializeApp(environment.firebase, "RiddlX"),
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   entryComponents: [],
   providers: [CommonService, CookieService, LetterService],

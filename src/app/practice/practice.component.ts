@@ -4,12 +4,17 @@ import { LetterService } from "../services/letter.service";
 import { StreamState } from "../interfaces";
 import { AudioService } from "../services/audio.service";
 import { SoundsService } from "../services/sounds.service";
+import { ToastrService } from "ngx-toastr";
+import { DragonService } from "../services/dragon.service";
+import { AchievementType } from "../services/types";
+import { CookieService } from "ngx-cookie-service";
 
 @Component({
   templateUrl: './practice.component.html',
   styleUrls: ['./practice.component.scss']
 })
 export class PracticeComponent {
+  user: string;
   letters: any[];
   answers: any[];
   imageSrc: string;
@@ -17,6 +22,7 @@ export class PracticeComponent {
   hideNext: boolean;
   isCorrect: boolean;
   imageLetters: any[];
+  showSuccess: boolean;
 
   // #region Player
 
@@ -26,14 +32,19 @@ export class PracticeComponent {
   // #endregion Player
 
   constructor(
+    private toastr: ToastrService,
     private audioService: AudioService,
     private soundService: SoundsService,
+    private dragonService: DragonService,
+    private cookieService: CookieService,
     private letterService: LetterService) {
     this.answers = [];
     this.imageSrc = '';
     this.isWrong = false;
     this.hideNext = false;
     this.isCorrect = false;
+    this.showSuccess = false;
+    this.user = this.cookieService.get('name');
 
     this.state = {
       playing: false,
@@ -55,6 +66,8 @@ export class PracticeComponent {
     var random = Math.floor(Math.random() * this.imageLetters.length) + 1;
     var letter = this.letters.find((x) => { return x.Id === random; }).Letter;
     this.imageSrc = this.letterService.getLetterImage(letter);
+    this.imageLetters.find((x) => { return x.Id === random; }).isShown = true;
+    this.imageLetters.filter((x) => { return x.Id <= 29 }).map((x) => { x.isShown = true });
   }
 
   drop(event: CdkDragDrop<any[]>): void {
@@ -63,7 +76,6 @@ export class PracticeComponent {
 
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      //this.imageLetters.find((x) => { return x.Id === random; }).isShown = false;
     } else {
       copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
 
@@ -72,23 +84,75 @@ export class PracticeComponent {
         this.isWrong = true;
       else
         this.isCorrect = true;
-      //this.imageLetters.find((x) => { return x.Id === random; }).isShown = true;
     }
   }
 
   next(): void {
+    let dragons = this.dragonService.getDragons().filter(x => x.Type == AchievementType.Practice);
+
+    let dragon = dragons.find((x: any) => { return x.Letter === this.answers[0].Letter });
+    let dragonsCookie = [];
+
+    if (this.cookieService.get('dragons') !== '') {
+      dragonsCookie = JSON.parse(this.cookieService.get('dragons'));
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+    } else {
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+    }
+
+    this.toastr.success('Доби ново змејче!', 'Браво!');
+
     while (true) {
       var random = Math.floor(Math.random() * this.imageLetters.length) + 1;
-      if (this.imageLetters.find((x) => { return x.Id === random; }).isShown)
+      var letterObj = this.letters.find((x) => { return x.Id === random; });
+      var imageLetterObj = this.imageLetters.find((x) => { return x.Letter === letterObj.Letter; });
+
+      if (imageLetterObj.isShown)
         continue;
 
-      var letter = this.letters.find((x) => { return x.Id === random; }).Letter;
+      var letter = letterObj.Letter;
 
       this.imageSrc = this.letterService.getLetterImage(letter);
 
-      this.hideNext = this.imageLetters.filter((x) => { return x.isShown; }).length === this.imageLetters.length;
+      this.hideNext = this.imageLetters.filter((x) => { return x.isShown; }).length === this.imageLetters.length - 1;
+      this.answers = [];
+      this.isCorrect = false;
+      this.isWrong = false;
+
+      this.imageLetters.find((x) => { return x.Id === random; }).isShown = true;
+
       break;
     }
+  }
+
+  finish(): void {
+    let dragons = this.dragonService.getDragons().filter(x => x.Type == AchievementType.Practice);
+
+    let dragon = dragons.find((x: any) => { return x.Letter === this.answers[0].Letter });
+    let dragonsCookie = [];
+
+    if (this.cookieService.get('dragons') !== '') {
+      dragonsCookie = JSON.parse(this.cookieService.get('dragons'));
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+    } else {
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+    }
+
+    this.toastr.success('Доби ново змејче!', 'Браво!');
+
+    this.showSuccess = true;
   }
 
   sortBy(prop: string) {
@@ -107,5 +171,20 @@ export class PracticeComponent {
     let word = this.imageSrc.replace('.png', '');
     let wordSound = this.files.filter((file) => { return file.text.toLowerCase() === word.toLowerCase() && file.text.length > 1; })[0];
     this.audioService.playStream(wordSound.url).subscribe(() => { });
+  }
+
+  listenLetter(letter: string): void {
+    let letterSound = this.files.filter((file) => { return file.text.toLowerCase() === letter.toLowerCase(); })[0];
+    this.audioService.playStream(letterSound.url).subscribe(() => { });
+  }
+
+  delete(): void {
+    this.answers = [];
+    this.isCorrect = false;
+    this.isWrong = false;
+  }
+
+  noReturnPredicate() {
+    return false;
   }
 }

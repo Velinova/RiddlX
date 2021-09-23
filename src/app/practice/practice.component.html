@@ -15,7 +15,7 @@
       <div class="position-absolute top-50 translate-middle">
         <span cdkDropList #answersList="cdkDropList" [cdkDropListData]="answers" [id]="'answers'" [cdkDropListConnectedTo]="[lettersList]" (cdkDropListDropped)="drop($event)"
               class="d-inline-block pt-4 drop-zone-wrapper" [ngClass]="[ isWrong ? 'border border-danger border-5': '', isCorrect ? 'border border-success border-5' : '']">
-          <span *ngFor="let item of answers" cdkDrag [id]="item.Id" class="drop-zone ps-2 pe-2"
+          <span *ngFor="let item of answers" cdkDrag [id]="item.Id" class="drop-zone ps-2 pe-2" [cdkDragDisabled]="true"
                 [class.vowel-ltr]="item.IsVowel" [class.consonant-ltr]="!item.IsVowel">
             {{ item.Letter }}
           </span>
@@ -30,14 +30,22 @@
   </div>
 
   <div class="position-relative clearfix mb-5 pb-3">
+    <button [disabled]="answers.length == 0" mat-raised-button color="accent" (click)="delete()" class="position-absolute top-0 end-0 fs-4 p-2" style="float: right; margin-right: 180px;">
+      Избриши&nbsp;<i class="fas fa-trash-alt"></i>
+    </button>
     <button [hidden]="hideNext" mat-raised-button color="accent" (click)="next()" class="position-absolute top-0 end-0 fs-4 p-2" [disabled]="!isCorrect">
       Следно&nbsp;<i class="fas fa-arrow-right"></i>
+    </button>
+
+    <button [hidden]="!hideNext" mat-raised-button color="accent" (click)="finish()" class="position-absolute top-0 end-0 fs-4 p-2" [disabled]="!isCorrect">
+      Заврши&nbsp;<i class="fas fa-check"></i>
     </button>
   </div>
 
   <hr />
 
-  <div cdkDropList #lettersList="cdkDropList" [cdkDropListData]="letters" [id]="'letters'" [cdkDropListConnectedTo]="[answersList]" (cdkDropListDropped)="drop($event)">
+  <div cdkDropList #lettersList="cdkDropList" [cdkDropListData]="letters" [id]="'letters'" [cdkDropListConnectedTo]="[answersList]" (cdkDropListDropped)="drop($event)"
+       [cdkDropListEnterPredicate]="noReturnPredicate">
     <div class="row g-1">
       <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-xxl-1 d-inline-block text-center" *ngFor="let item of sortBy('Id')" cdkDrag [id]="item.Id">
         <mat-card class="w-100 mat-elevation-z8" [class.vowel]="item.IsVowel" [class.consonant]="!item.IsVowel" [class.used]="isUsed(item.Letter)" style="border-radius: 15px">
@@ -48,12 +56,31 @@
             </div>
           </mat-card-content>
           <mat-card-actions class="text-center">
-            <button mat-mini-fab color="accent" class="mt-1" [hidden]="isUsed(item.Letter)">
+            <button mat-mini-fab color="accent" class="mt-1" (click)="listenLetter(item.Letter)">
               <i class="fas fa-volume-up"></i>
             </button>
           </mat-card-actions>
         </mat-card>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="position-fixed d-block overlay" style="width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; z-index: 2;" *ngIf="showSuccess">
+  <div class="dragon-success text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%);">
+    <p class="text-container" style="padding-top: 8%; font-size: 3rem;">
+       Браво {{ user }}! 
+    </p>
+    <br />
+    <img src="assets/images/dragon-success.png" />
+    <div>
+      <button mat-raised-button color="accent" routerLink="/play" class="fs-2" style="height: 3.5rem">
+        Играј
+      </button>
+      &nbsp;
+      <button mat-raised-button color="accent" routerLink="/achievements" class="fs-2" style="height: 3.5rem">
+        Види ја дружината
+      </button>
     </div>
   </div>
 </div>

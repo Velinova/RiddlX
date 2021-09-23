@@ -3,9 +3,12 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\achievements",
+    "\\src\\app\\practice",
+    "\\src\\app\\services",
     "\\src\\app\\welcome",
-    "\\src\\assets"
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\styles.scss",
+  "SelectedNode": "\\src\\app\\welcome\\welcome.component.scss",
   "PreviewInSolutionExplorer": false
 }

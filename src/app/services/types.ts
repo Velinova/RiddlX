@@ -2,7 +2,8 @@ export class Dragon {
   constructor(
     public Id?: number,
     public Name?: string,
-    public Type?: AchievementType
+    public Type?: AchievementType,
+    public Letter?: string
   ) { }
 }
 

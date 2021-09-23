@@ -87,3 +87,18 @@
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.overlay {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.text-container {
+  width: 80%;
+  line-height: 2;
+  font-size: 32px;
+  margin-left: 10%;
+  font-weight: bold;
+  min-height: 200px;
+  border-radius: 10px;
+  background: rgba(226,226,226,.5);
+}
