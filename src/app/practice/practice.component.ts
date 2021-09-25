@@ -1,13 +1,13 @@
+import { CdkDragDrop, copyArrayItem, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from "@angular/core";
-import { CdkDragDrop, copyArrayItem, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { LetterService } from "../services/letter.service";
+import { CookieService } from "ngx-cookie-service";
+import { ToastrService } from "ngx-toastr";
 import { StreamState } from "../interfaces";
 import { AudioService } from "../services/audio.service";
-import { SoundsService } from "../services/sounds.service";
-import { ToastrService } from "ngx-toastr";
 import { DragonService } from "../services/dragon.service";
+import { LetterService } from "../services/letter.service";
+import { SoundsService } from "../services/sounds.service";
 import { AchievementType } from "../services/types";
-import { CookieService } from "ngx-cookie-service";
 
 @Component({
   templateUrl: './practice.component.html',
@@ -98,12 +98,12 @@ export class PracticeComponent {
       if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
         dragonsCookie.push(dragon.Letter);
 
-      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     } else {
       if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
         dragonsCookie.push(dragon.Letter);
 
-      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
     this.toastr.success('Доби ново змејче!', 'Браво!');
@@ -142,15 +142,21 @@ export class PracticeComponent {
       if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
         dragonsCookie.push(dragon.Letter);
 
-      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     } else {
       if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
         dragonsCookie.push(dragon.Letter);
 
-      this.cookieService.set('dragons', JSON.stringify(dragonsCookie));
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
     this.toastr.success('Доби ново змејче!', 'Браво!');
+
+    let lastPassedLevel = Number(JSON.parse(this.cookieService.get('level-passed')));
+    if (lastPassedLevel >= 0)
+      return;
+
+    this.cookieService.set('level-passed', '0', undefined, '/');
 
     this.showSuccess = true;
   }

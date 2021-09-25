@@ -33,8 +33,9 @@ export class NameDialogComponent {
 
     let guid = this.commonService.getGuid();
 
-    this.cookieService.set('user', guid);
-    this.cookieService.set('name', this.data);
+    this.cookieService.set('level-passed', '-1', undefined, '/');
+    this.cookieService.set('user', guid, undefined, '/');
+    this.cookieService.set('name', this.data, undefined, '/');
 
     this.dialogRef.close(this.data);
   }

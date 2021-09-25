@@ -27,7 +27,7 @@ body, html {
 }
 
 .mat-form-field {
-    width: 100%;
+  width: 100%;
 }
 
 .mat-tab-body-content {
@@ -35,7 +35,11 @@ body, html {
 }
 
 mat-card {
-    border-radius: 15px !important;
+  border-radius: 15px !important;
+}
+
+.row {
+  width: 99%;
 }
 
 @font-face {

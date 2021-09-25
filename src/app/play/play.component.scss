@@ -1,0 +1,36 @@
+.item {
+  width: 100%;
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-direction: column;
+  justify-content: center;
+
+  div {
+    &.level {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    &.desc {
+      font-size: 3rem;
+      font-weight: bolder;
+    }
+  }
+}
+
+.container {
+  top: 10%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  position: fixed;
+  flex-wrap: wrap;
+}
+
+.container > div {
+  flex: 100%;
+  margin-bottom: 15px;
+}

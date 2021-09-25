@@ -3,12 +3,11 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\achievements",
-    "\\src\\app\\practice",
-    "\\src\\app\\services",
-    "\\src\\app\\welcome",
-    "\\src\\environments"
+    "\\src\\app\\play",
+    "\\src\\app\\play\\gameplay",
+    "\\src\\app\\play\\gameplay\\level-1",
+    "\\src\\app\\practice"
   ],
-  "SelectedNode": "\\src\\app\\welcome\\welcome.component.scss",
+  "SelectedNode": "\\src\\app\\play\\gameplay\\level-1\\level-1.component.scss",
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,27 @@
+<back></back>
+
+<div class="container">
+  <div class="text-center" style="font-size: 2rem; color: navajowhite; line-height: 2rem;" *ngIf="lastPassedLevel < 0">
+    Прво треба да завршиш со вежбите за да продолжиш со играта.
+  </div>
+
+  <button mat-raised-button color="accent" class="item" [routerLink]="'1'" [disabled]="lastPassedLevel < 0">
+    <div class="level">Ниво 1</div>
+    <div class="desc">Која буква недостасува?</div>
+  </button>
+
+  <button mat-raised-button color="accent" class="item" [routerLink]="'2'" [disabled]="lastPassedLevel < 1">
+    <div class="level">Ниво 2</div>
+    <div class="desc">Како се пишува зборот?</div>
+  </button>
+
+  <button mat-raised-button color="accent" class="item" [routerLink]="'3'" [disabled]="lastPassedLevel < 2">
+    <div class="level">Ниво 3</div>
+    <div class="desc">Каде има грешка?</div>
+  </button>
+
+  <button mat-raised-button color="accent" class="item" [routerLink]="'4'" [disabled]="lastPassedLevel < 3">
+    <div class="level">Ниво 4</div>
+    <div class="desc">Каде има рима?</div>
+  </button>
+</div>

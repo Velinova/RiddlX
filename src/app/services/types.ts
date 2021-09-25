@@ -23,3 +23,22 @@ export class UserModel {
     this.practiceDragons = [];
   }
 }
+
+export class Word {
+  constructor(
+    public id: number,
+    public word: string
+  ) { }
+
+  firstLetter(): string {
+    return this.word[0];
+  }
+
+  middlePart(): string {
+    return this.word.substring(1, this.word.length - 1);
+  }
+
+  lastLetter(): string {
+    return this.word[this.word.length - 1];
+  }
+}
