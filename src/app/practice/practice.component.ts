@@ -67,7 +67,6 @@ export class PracticeComponent {
     var letter = this.letters.find((x) => { return x.Id === random; }).Letter;
     this.imageSrc = this.letterService.getLetterImage(letter);
     this.imageLetters.find((x) => { return x.Id === random; }).isShown = true;
-    this.imageLetters.filter((x) => { return x.Id <= 29 }).map((x) => { x.isShown = true });
   }
 
   drop(event: CdkDragDrop<any[]>): void {

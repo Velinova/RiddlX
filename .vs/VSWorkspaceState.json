@@ -5,9 +5,12 @@
     "\\src\\app",
     "\\src\\app\\play",
     "\\src\\app\\play\\gameplay",
-    "\\src\\app\\play\\gameplay\\level-1",
-    "\\src\\app\\practice"
+    "\\src\\app\\play\\gameplay\\level-2",
+    "\\src\\app\\practice",
+    "\\src\\app\\services",
+    "\\src\\assets",
+    "\\src\\assets\\sounds",
+    "\\src\\assets\\sounds\\level-1"
   ],
-  "SelectedNode": "\\src\\app\\play\\gameplay\\level-1\\level-1.component.scss",
   "PreviewInSolutionExplorer": false
 }

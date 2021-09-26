@@ -315,6 +315,126 @@ export class SoundsService {
       url: "assets/sounds/words/шах.mp3",
       text: "шах",
       isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/бериќет.mp3",
+      text: "бериќет",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/вашингтон.mp3",
+      text: "вашингтон",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/ѓумбир.mp3",
+      text: "ѓумбир",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/дизајнер.mp3",
+      text: "дизајнер",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/дијабетичар.mp3",
+      text: "дијабетичар",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/едноставно.mp3",
+      text: "едноставно",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/жештина.mp3",
+      text: "жештина",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/зелник.mp3",
+      text: "зелник",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/јаболкница.mp3",
+      text: "јаболкница",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/коњушница.mp3",
+      text: "коњушница",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/кроасан.mp3",
+      text: "кроасан",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/локум.mp3",
+      text: "локум",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/љубомора.mp3",
+      text: "љубомора",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/марионетка.mp3",
+      text: "марионетка",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/оџачар.mp3",
+      text: "оџачар",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/приморје.mp3",
+      text: "приморје",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/соѕвездие.mp3",
+      text: "соѕвездие",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/упатство.mp3",
+      text: "упатство",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/фризерка.mp3",
+      text: "фризерка",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/хулахоп.mp3",
+      text: "хулахоп",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/царство.mp3",
+      text: "царство",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/цитат.mp3",
+      text: "цитат",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/чекан.mp3",
+      text: "чекан",
+      isLetter: false
+    },
+    {
+      url: "assets/sounds/level-1/шпорет.mp3",
+      text: "шпорет",
+      isLetter: false
     }
   ];
 

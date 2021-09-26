@@ -42,7 +42,7 @@ export class Level1Component implements OnInit {
   ) {
     this.user = '';
     this.words = [];
-    this.counter = 22;
+    this.counter = 0;
     this.letters = [];
     this.lastLetter = [];
     this.firstLetter = [];
@@ -115,6 +115,11 @@ export class Level1Component implements OnInit {
   listenLetter(letter: string): void {
     let letterSound = this.files.find((x) => { return x.isLetter && x.text.toLowerCase() === letter.toLowerCase() });
     this.audioService.playStream(letterSound.url).subscribe(() => { });
+  }
+
+  listenWord(word: string): void{
+    let wordSound = this.files.find((x) => { return !x.isLetter && x.text.toLowerCase() === word.toLowerCase() });
+    this.audioService.playStream(wordSound.url).subscribe(() => { });
   }
 
   noReturnPredicate(): boolean { return false; }
