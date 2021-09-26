@@ -1,11 +1,10 @@
 <div class="container mt-3">
-<div class="word-image">
-  <div class="row">
+  <div class="word-image">
     <div class="image-holder">
-    <mat-card style="width: 350px; background: rgba(255,255,255, .7); ">
+      <mat-card style="width: 350px; background: rgba(255,255,255, .7);">
         <img [src]="'/assets/images/letters/' + imageSrc" mat-card-image />
         <mat-card-actions>
-          <button mat-raised-button color="accent" class="w-100 fs-4 p-2" (click)="listenWord(words[(current).Id - 1])">
+          <button mat-raised-button color="accent" class="w-100 fs-4 p-2" (click)="listenWord(words[index])">
             <i class="fas fa-volume-up"></i>&nbsp;Слушни
           </button>
         </mat-card-actions>
@@ -13,32 +12,77 @@
     </div>
   </div>
 </div>
-<div class="drop-holder">
-  <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)" [cdkDropListData]="word"
-  #wordList="cdkDropList" [cdkDropListConnectedTo]="[lettersList]" > 
-  <div class="example-box" *ngFor="let item of word" cdkDrag>{{item | uppercase}}</div>
-</div>
-<div class="drag-holder">
-  <div cdkDropList #lettersList="cdkDropList" [cdkDropListData]="wordLetters" [id]="'wordLetters'" [cdkDropListConnectedTo]="[wordList]"
-     [cdkDropListEnterPredicate]="noReturnPredicate">
-  <div class="row g-1">
-    <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-xxl-1 d-inline-block text-center" *ngFor="let item of wordLetters" cdkDrag [id]="item.Id" [cdkDragDisabled]="item.isDisabled">
-      <mat-card class="w-100 mat-elevation-z8" [class.vowel]="item.IsVowel" [class.consonant]="!item.IsVowel" [class.used]="item.isDisabled" style="border-radius: 15px">
-        <mat-card-content>
-          <div class="letter pt-1">
-            <span class="mr-2">{{ item.Letter }}</span>
-            <span class="mr-2">{{ item.Letter | lowercase }}</span>
-          </div>
-        </mat-card-content>
-        <mat-card-actions class="text-center">
-          <button mat-mini-fab color="accent" class="mt-1" (click)="listenLetter(item.Letter)">
-            <i class="fas fa-volume-up"></i>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+
+<div class="drop-holder mt-3">
+  <div *ngFor="let item of answers; let index = index" [class.wrong]="isWrong">
+    <mat-card *ngIf="!item" class="w-100 mat-elevation-z8">
+      <mat-card-content></mat-card-content>
+      <mat-card-actions></mat-card-actions>
+    </mat-card>
+
+    <mat-card class="w-100 mat-elevation-z8" [class.vowel]="item.IsVowel" [class.consonant]="!item.IsVowel" *ngIf="item" [ngClass]="{'border border-success' : isCorrect}">
+      <mat-card-content (click)="removeLetter(index)" class="remove-cursor">
+        <div class="letter pt-1">
+          <span class="mr-2">{{ item.Letter }}</span>
+          <span class="mr-2">{{ item.Letter | lowercase }}</span>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="text-center">
+        <button mat-mini-fab color="accent" class="mt-1" (click)="listenLetter(item.Letter)">
+          <i class="fas fa-volume-up"></i>
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </div>
+
+<hr />
+
+<div class="letters-holder">
+  <div *ngFor="let item of wordLetters; let index = index;">
+    <mat-card class="w-100 mat-elevation-z8" [class.vowel]="item.IsVowel" [class.consonant]="!item.IsVowel" [class.used]="item.isDisabled" style="cursor: pointer;">
+      <mat-card-content (click)="addLetter(index)">
+        <div class="letter pt-1">
+          <span class="mr-2">{{ item.Letter }}</span>
+          <span class="mr-2">{{ item.Letter | lowercase }}</span>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="text-center">
+        <button mat-mini-fab color="accent" class="mt-1" (click)="listenLetter(item.Letter)">
+          <i class="fas fa-volume-up"></i>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
 
+<div class="options-holder mt-5">
+  <button mat-raised-button color="accent" class="fs-4 p-2" (click)="showLetter()" [disabled]="isCorrect || areAllDisabled()">
+    Помош&nbsp;<i class="fas fa-question"></i>
+  </button>
+  <button mat-raised-button color="accent" class="fs-4 p-2" (click)="next()" [hidden]="hideNext" [disabled]="!isCorrect">
+    Следно&nbsp;<i class="fas fa-arrow-right"></i>
+  </button>
+  <button [hidden]="!hideNext" mat-raised-button color="accent" (click)="finish()" [disabled]="!isCorrect">
+    Заврши&nbsp;<i class="fas fa-check"></i>
+  </button>
+</div>
+
+<div class="position-fixed d-block overlay" style="width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; z-index: 2;" *ngIf="showSuccess">
+  <div class="dragon-success text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%);">
+    <p class="text-container" style="padding-top: 8%; font-size: 3rem;">
+      Браво {{ user }}!
+    </p>
+    <br />
+    <img src="assets/images/dragon-success.png" />
+    <div>
+      <button mat-raised-button color="accent" routerLink="/play" class="fs-2" style="height: 3.5rem">
+        Играј
+      </button>
+      &nbsp;
+      <button mat-raised-button color="accent" routerLink="/achievements" class="fs-2" style="height: 3.5rem">
+        Види ја дружината
+      </button>
+    </div>
+  </div>
 </div>

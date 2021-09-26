@@ -1,11 +1,14 @@
 import { CdkDragDrop, copyArrayItem, moveItemInArray } from "@angular/cdk/drag-drop";
 import { Component, OnInit } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
+import { ToastrService } from "ngx-toastr";
 import { StreamState } from "../../../interfaces";
 import { AudioService } from "../../../services/audio.service";
-import { SoundsService } from "../../../services/sounds.service";
+import { DragonService } from "../../../services/dragon.service";
 import { LetterService } from "../../../services/letter.service";
 import { LevelService } from "../../../services/level.service";
+import { SoundsService } from "../../../services/sounds.service";
+import { AchievementType } from "../../../services/types";
 
 @Component({
   selector: 'level-2',
@@ -13,14 +16,20 @@ import { LevelService } from "../../../services/level.service";
   styleUrls: ['./level-2.component.scss']
 })
 export class Level2Component implements OnInit {
+  word: string;
   user: string;
-  imageSrc: string;
   current: any;
-  imageLetters: any[];
+  index: number;
   letters: any[];
-  wordLetters: any[];
+  answers: any[];
   words: string[];
-  word: any[];
+  isWrong: boolean;
+  imageSrc: string;
+  isCorrect: boolean;
+  hideNext: boolean;
+  showSuccess: boolean;
+  wordLetters: any[];
+  imageLetters: any[];
 
   // #region Player
 
@@ -31,47 +40,55 @@ export class Level2Component implements OnInit {
 
   constructor(
     private audioService: AudioService,
+    private levelService: LevelService,
     private soundService: SoundsService,
     private cookieService: CookieService,
     private letterService: LetterService,
-    private levelService: LevelService,
+    private dragonService: DragonService,
+    private toastr: ToastrService
   ) {
     this.user = '';
     this.words = [];
-    this.word = [];
+    this.answers = [];
+    this.isWrong = false;
+    this.isCorrect = false;
+    this.hideNext = false;
+    this.showSuccess = false;
     this.letters = this.letterService.getLetters();
     this.words = this.levelService.getLevelTwoWords();
 
     this.imageLetters = this.letterService.getLetters();
     this.imageLetters.map((x) => { x.isShown = false });
-    var random = Math.floor(Math.random() * this.imageLetters.length) + 1;
-    var letter = this.letters.find((x) => { return x.Id === random; }).Letter;
-    var imageUrl = this.letterService.getLetterImage(letter);
+    let random = Math.floor(Math.random() * this.imageLetters.length);
+    this.index = random;
+    let letter = this.letters[random].Letter;
     this.current = this.letters[random];
     this.imageSrc = this.letterService.getLetterImage(letter);
-    this.imageLetters.find((x) => { return x.Id === random; }).isShown = true;
+    this.imageLetters[random].isShown = true;
 
+    this.word = this.words[this.index];
     this.wordLetters = [];
-    var wordCharArray = Array.from(this.words[random-1]);
-    var vowels = ['']
-    for(let i = 0; i < wordCharArray.length; i++ in wordCharArray){
+    let wordCharArray = Array.from(this.words[random]);
+
+    for (let i = 0; i < wordCharArray.length; i++ in wordCharArray) {
       this.wordLetters.push({ Id: i, Letter: wordCharArray[i].toUpperCase(), IsVowel: this.isVowel(wordCharArray[i].toLowerCase()) });
+      this.answers.push(null);
     }
+
     this.wordLetters = this.shuffle(this.wordLetters);
-    console.log(this.wordLetters);
 
     this.soundService.getFiles().subscribe(files => {
-        this.files = files;
-      });
+      this.files = files;
+    });
 
     this.state = {
-    playing: false,
-    readableCurrentTime: '',
-    readableDuration: '',
-    duration: undefined,
-    currentTime: undefined,
-    canplay: false,
-    error: false
+      playing: false,
+      readableCurrentTime: '',
+      readableDuration: '',
+      duration: undefined,
+      currentTime: undefined,
+      canplay: false,
+      error: false
     };
   }
 
@@ -81,7 +98,7 @@ export class Level2Component implements OnInit {
   }
 
   listenWord(word: string): void {
-   let wordSound = this.files.find((x) => { return !x.isLetter && x.text.toLowerCase() === word.toLowerCase() });
+    let wordSound = this.files.find((x) => { return !x.isLetter && x.text.toLowerCase() === word.toLowerCase() });
     this.audioService.playStream(wordSound.url).subscribe(() => { });
   }
 
@@ -104,19 +121,20 @@ export class Level2Component implements OnInit {
       //let word = this.words[this.counter];
 
       //if (word.firstLetter().toLowerCase() !== letter.toLowerCase())
-        //this.isWrong.first = true;
+      //this.isWrong.first = true;
       //else
-        //this.isCorrect.first = true;
+      //this.isCorrect.first = true;
     }
   }
 
   noReturnPredicate(): boolean { return false; }
 
-  // end region
+  // #endregion
 
-  isVowel(c: string) : boolean{
+  isVowel(c: string): boolean {
     return ['а', 'е', 'и', 'о', 'у'].indexOf(c.toLowerCase()) !== -1
   };
+
   shuffle(array: string[]): string[] {
     var currentIndex = array.length, temporaryValue, randomIndex;
     while (0 !== currentIndex) {
@@ -129,4 +147,158 @@ export class Level2Component implements OnInit {
     return array;
   };
 
+  // #region Options
+
+  addLetter(index: number): void {
+    let letter = this.wordLetters[index];
+    if (letter.isDisabled)
+      return;
+
+    this.wordLetters[index].isDisabled = true;
+    let firstNullIndex = this.answers.indexOf(null);
+    this.answers[firstNullIndex] = letter;
+
+    if (this.wordLetters.filter((x) => { return !x.isDisabled; }).length === 0)
+      this.validateAnswer();
+  }
+
+  removeLetter(index: number): void {
+    let letter = this.answers[index].Letter;
+    this.wordLetters.find((x) => { return x.Letter == letter && x.isDisabled }).isDisabled = false;
+    this.answers[index] = null;
+    this.isWrong = false;
+    this.isCorrect = false;
+  }
+
+  validateAnswer(): void {
+    this.isWrong = false;
+    this.isCorrect = false;
+    for (let i = 0; i < this.answers.length; i++) {
+      if (this.words[this.index][i].toLowerCase() !== this.answers[i].Letter.toLowerCase()) {
+        this.isWrong = true;
+        break;
+      }
+    }
+
+    this.isCorrect = !this.isWrong;
+  }
+
+  showLetter(): void {
+    let random = -1;
+    while (true) {
+      random = Math.floor(Math.random() * this.wordLetters.length);
+      if (!this.wordLetters[random].isDisabled) {
+        break;
+      }
+    }
+    let indexInWord = this.word.indexOf(this.wordLetters[random].Letter);
+    if (this.answers[indexInWord] !== null) {
+      indexInWord = this.word.indexOf(this.wordLetters[random].Letter, indexInWord + 1);
+      if (this.answers[indexInWord] !== null) {
+        indexInWord = this.word.indexOf(this.wordLetters[random].Letter, indexInWord + 1);
+      }
+    }
+    this.answers[indexInWord] = this.wordLetters[random];
+    this.wordLetters[random].isDisabled = true;
+
+    if (this.wordLetters.filter((x) => { return !x.isDisabled; }).length === 0)
+      this.validateAnswer();
+  }
+
+  areAllDisabled(): boolean {
+    return this.wordLetters.filter((x) => { return x.isDisabled }).length === this.wordLetters.length;
+
+  }
+
+  next(): void {
+    let dragons = this.dragonService.getDragons().filter(x => x.Type == AchievementType.Play);
+
+    let dragon = dragons.find((x: any) => { return x.Letter === this.answers[0].Letter });
+    let dragonsCookie = [];
+
+    if (this.cookieService.get('dragons') !== '') {
+      dragonsCookie = JSON.parse(this.cookieService.get('dragons'));
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
+    } else {
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
+    }
+
+    this.toastr.success('Доби ново змејче!', 'Браво!');
+
+    while (true) {
+      var random = Math.floor(Math.random() * this.imageLetters.length);
+      var letterObj = this.letters[random];
+      var imageLetterObj = this.imageLetters.find((x) => { return x.Letter === letterObj.Letter; });
+
+      if (imageLetterObj.isShown)
+        continue;
+
+      var letter = letterObj.Letter;
+
+      this.imageSrc = this.letterService.getLetterImage(letter);
+
+      //reinitialize
+      this.hideNext = this.imageLetters.filter((x) => { return x.isShown; }).length === this.imageLetters.length - 1;
+      this.answers = [];
+      this.isCorrect = false;
+      this.isWrong = false;
+      this.index = random;
+      this.current = this.letters[random];
+      this.imageSrc = this.letterService.getLetterImage(letter);
+      this.imageLetters[random].isShown = true;
+
+      this.word = this.words[this.index];
+      this.wordLetters = [];
+      let wordCharArray = Array.from(this.words[random]);
+
+      for (let i = 0; i < wordCharArray.length; i++ in wordCharArray) {
+        this.wordLetters.push({ Id: i, Letter: wordCharArray[i].toUpperCase(), IsVowel: this.isVowel(wordCharArray[i].toLowerCase()) });
+        this.answers.push(null);
+      }
+
+      this.wordLetters = this.shuffle(this.wordLetters);
+
+      this.imageLetters.find((x) => { return x.Id === random; }).isShown = true;
+
+      break;
+    }
+  }
+
+  finish(): void {
+    let dragons = this.dragonService.getDragons().filter(x => x.Type == AchievementType.Play);
+
+    let dragon = dragons.find((x: any) => { return x.Letter === this.answers[0].Letter });
+    let dragonsCookie = [];
+
+    if (this.cookieService.get('dragons') !== '') {
+      dragonsCookie = JSON.parse(this.cookieService.get('dragons'));
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
+    } else {
+      if (dragon) // in our case this will always be true, but we need to satisfy the typescript compiler
+        dragonsCookie.push(dragon.Letter);
+
+      this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
+    }
+
+    this.toastr.success('Доби ново змејче!', 'Браво!');
+
+    let lastPassedLevel = Number(JSON.parse(this.cookieService.get('level-passed')));
+    if (lastPassedLevel >= 2)
+      return;
+
+    this.cookieService.set('level-passed', '2', undefined, '/');
+    debugger;
+
+    this.showSuccess = true;
+  }
+  // #endregion
 }
