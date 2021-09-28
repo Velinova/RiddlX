@@ -6,11 +6,10 @@
     "\\src\\app\\play",
     "\\src\\app\\play\\gameplay",
     "\\src\\app\\play\\gameplay\\level-2",
-    "\\src\\app\\practice",
-    "\\src\\app\\services",
+    "\\src\\app\\play\\gameplay\\level-3",
     "\\src\\assets",
-    "\\src\\assets\\sounds",
-    "\\src\\assets\\sounds\\level-1"
+    "\\src\\assets\\images"
   ],
+  "SelectedNode": "\\src\\app\\play\\gameplay\\level-2\\level-2.component.scss",
   "PreviewInSolutionExplorer": false
 }

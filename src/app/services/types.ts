@@ -42,3 +42,30 @@ export class Word {
     return this.word[this.word.length - 1];
   }
 }
+
+export class Story {
+  constructor(
+    public id: number,
+    public image: string,
+    public description: string,
+    public wrongWords: string[]
+  ) {
+  }
+}
+
+
+export class DescriptionWord {
+  constructor(
+    public id: number,
+    public word: string,
+    public isWrong: boolean,
+    public isChecked: boolean,
+    public isWronglySelected?: boolean
+  ) {
+    this.isWronglySelected = false;
+  }
+
+  equals(word: string): boolean {
+    return this.word === word;
+  }
+}

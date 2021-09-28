@@ -1,0 +1,91 @@
+.image-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  mat-card {
+    width: 350px;
+    background: rgba(255,255,255, .7);
+  }
+}
+.description-holder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  width: 100%;
+  height: auto;
+  background: rgba(255,255,255, .7);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: justify;
+
+  span {
+    font-size: 2.2rem;
+    display: inline-block;
+    padding: 20px 20px;
+    border-radius:15px;
+  }
+
+  span:hover {
+    background: rgba( 255, 215, 64, 0.8);
+    cursor: pointer;
+  }
+}
+
+.wrong{
+    background-color:red;
+    color: white;
+}
+
+.options-holder {
+  float: right;
+
+  button {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    padding: 5px;
+  }
+}
+
+.overlay {
+  background-color: rgba(0,0,0,0.5);
+}
+
+.text-container {
+  width: 80%;
+  line-height: 2;
+  font-size: 32px;
+  margin-left: 10%;
+  font-weight: bold;
+  min-height: 200px;
+  border-radius: 10px;
+  background: rgba(226,226,226,.5);
+}
+
+.wrong-selection {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
