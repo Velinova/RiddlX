@@ -84,8 +84,9 @@ export class Level3Component {
     }
   }
 
-  listen(): void {
-    return;
+  listen(story: Story): void {
+    console.log(story.image.substring(0, story.image.length - 4) + '.mp3');
+    this.audioService.playStream('assets/sounds/stories/' + story.image.substring(0, story.image.length - 4) + '.mp3').subscribe(() => { });
   }
 
   findDescriptionWord(word: DescriptionWord): DescriptionWord | undefined {

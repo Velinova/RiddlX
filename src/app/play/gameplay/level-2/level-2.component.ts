@@ -96,11 +96,13 @@ export class Level2Component implements OnInit {
 
   listenWord(word: string): void {
     let wordSound = this.files.find((x) => { return !x.isLetter && x.text.toLowerCase() === word.toLowerCase() });
+    console.log(wordSound.url);
     this.audioService.playStream(wordSound.url).subscribe(() => { });
   }
 
   listenLetter(letter: string): void {
     let letterSound = this.files.find((x) => { return x.isLetter && x.text.toLowerCase() === letter.toLowerCase() });
+    console.log(letterSound.url);
     this.audioService.playStream(letterSound.url).subscribe(() => { });
   }
 
