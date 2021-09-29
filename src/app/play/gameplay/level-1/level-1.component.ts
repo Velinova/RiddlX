@@ -14,7 +14,7 @@ import { Word } from "../../../services/types";
   styleUrls: ['./level-1.component.scss']
 })
 export class Level1Component implements OnInit {
-  user: string;
+  
   isWrong: any;
   words: Word[];
   isCorrect: any;
@@ -40,7 +40,7 @@ export class Level1Component implements OnInit {
     private cookieService: CookieService,
     private letterService: LetterService
   ) {
-    this.user = '';
+    
     this.words = [];
     this.counter = 0;
     this.letters = [];
@@ -72,7 +72,6 @@ export class Level1Component implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.cookieService.get('name');
     this.words = this.levelService.getLevelOneWords();
   }
 
@@ -153,7 +152,8 @@ export class Level1Component implements OnInit {
     }
   }
 
-  levelPassed(): void {
+  finish(): void {
+    this.showSuccess = true;
     var lastPassedLevel = Number(JSON.parse(this.cookieService.get('level-passed')));
     if (lastPassedLevel >= 1)
       return;

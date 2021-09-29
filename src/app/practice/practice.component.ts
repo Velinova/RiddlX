@@ -76,6 +76,17 @@ export class PracticeComponent {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      if (this.answers.length > 0) {
+        let letter = this.letters.find((x) => { return x.Id === Number(event.item.element.nativeElement.id) });
+        this.answers[0] = letter;
+        if (this.imageSrc[0].toLowerCase() !== letter.Letter.toLowerCase())
+          this.isWrong = true;
+        else
+          this.isCorrect = true;
+
+        return;
+      }
+
       copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
 
       let letter = this.letters.find((x) => { return x.Id === Number(event.item.element.nativeElement.id) }).Letter;
@@ -105,7 +116,7 @@ export class PracticeComponent {
       this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
-    this.toastr.success('Доби ново змејче!', 'Браво!');
+    this.toastr.success('Пронајде ново змејче!', 'Браво!');
 
     while (true) {
       var random = Math.floor(Math.random() * this.imageLetters.length) + 1;
@@ -149,7 +160,7 @@ export class PracticeComponent {
       this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
-    this.toastr.success('Доби ново змејче!', 'Браво!');
+    this.toastr.success('Пронајде ново змејче!', 'Браво!');
 
     let lastPassedLevel = Number(JSON.parse(this.cookieService.get('level-passed')));
     if (lastPassedLevel >= 0)

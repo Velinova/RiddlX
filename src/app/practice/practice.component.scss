@@ -22,6 +22,10 @@
   font-size: 100px;
 }
 
+.remove-cursor {
+  cursor: url('/assets/images/delete.cur'), auto;
+}
+
 .consonant {
   background: #d2234c;
 }

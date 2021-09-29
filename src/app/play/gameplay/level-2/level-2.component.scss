@@ -82,29 +82,14 @@
   perspective: 1000px;
 }
 
-.options-holder{
-    float: right;
+.options-holder {
+  float: right;
 
-    button{
-        margin-right: 10px;
-        font-size: 1.5rem;
-        padding: 5px;
-    }
-}
-
-.overlay {
-  background-color: rgba(0,0,0,0.5);
-}
-
-.text-container {
-  width: 80%;
-  line-height: 2;
-  font-size: 32px;
-  margin-left: 10%;
-  font-weight: bold;
-  min-height: 200px;
-  border-radius: 10px;
-  background: rgba(226,226,226,.5);
+  button {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    padding: 5px;
+  }
 }
 
 @keyframes shake {
@@ -122,5 +107,17 @@
 
   40%, 60% {
     transform: translate3d(4px, 0, 0);
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .br-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .br-container {
+    margin-top: 20%;
   }
 }

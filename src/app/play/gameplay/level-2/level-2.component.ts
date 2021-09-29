@@ -3,9 +3,9 @@ import { Component, OnInit } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
 import { ToastrService } from "ngx-toastr";
 import { StreamState } from "../../../interfaces";
-import { LetterService } from "../../../services/letter.service";
 import { AudioService } from "../../../services/audio.service";
 import { DragonService } from "../../../services/dragon.service";
+import { LetterService } from "../../../services/letter.service";
 import { LevelService } from "../../../services/level.service";
 import { SoundsService } from "../../../services/sounds.service";
 import { AchievementType } from "../../../services/types";
@@ -17,7 +17,6 @@ import { AchievementType } from "../../../services/types";
 })
 export class Level2Component implements OnInit {
   word: string;
-  user: string;
   current: any;
   index: number;
   letters: any[];
@@ -47,7 +46,6 @@ export class Level2Component implements OnInit {
     private dragonService: DragonService,
     private toastr: ToastrService
   ) {
-    this.user = '';
     this.words = [];
     this.answers = [];
     this.isWrong = false;
@@ -93,7 +91,6 @@ export class Level2Component implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.cookieService.get('name');
     this.words = this.levelService.getLevelTwoWords();
   }
 
@@ -116,14 +113,6 @@ export class Level2Component implements OnInit {
       if (this.word.length > 0)
         return;
       copyArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-
-      //let letter = this.letters.find((x) => { return x.Id === Number(event.item.element.nativeElement.id) }).Letter;
-      //let word = this.words[this.counter];
-
-      //if (word.firstLetter().toLowerCase() !== letter.toLowerCase())
-      //this.isWrong.first = true;
-      //else
-      //this.isCorrect.first = true;
     }
   }
 
@@ -229,7 +218,7 @@ export class Level2Component implements OnInit {
       this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
-    this.toastr.success('Доби ново змејче!', 'Браво!');
+    this.toastr.success('Пронајде ново змејче!', 'Браво!');
 
     while (true) {
       var random = Math.floor(Math.random() * this.imageLetters.length);
@@ -289,16 +278,16 @@ export class Level2Component implements OnInit {
       this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
-    this.toastr.success('Доби ново змејче!', 'Браво!');
+    this.toastr.success('Пронајде ново змејче!', 'Браво!');
+
+    this.showSuccess = true;
 
     let lastPassedLevel = Number(JSON.parse(this.cookieService.get('level-passed')));
     if (lastPassedLevel >= 2)
       return;
 
     this.cookieService.set('level-passed', '2', undefined, '/');
-    debugger;
 
-    this.showSuccess = true;
   }
   // #endregion
 }

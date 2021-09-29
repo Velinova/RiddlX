@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
 import { ToastrService } from "ngx-toastr";
 import { AudioService } from "../../../services/audio.service";
@@ -12,14 +12,13 @@ import { AchievementType, DescriptionWord, Story } from "../../../services/types
   templateUrl: './level-3.component.html',
   styleUrls: ['./level-3.component.scss']
 })
-export class Level3Component implements OnInit {
+export class Level3Component {
   counter: number;
   story: Story;
   stories: Story[];
   descriptionWords: DescriptionWord[];
   storyImage: string;
 
-  user: string;
   files: any[];
   state: any;
   descriptionWordsArray: string[];
@@ -44,7 +43,6 @@ export class Level3Component implements OnInit {
     this.counter = 0;
     this.files = [];
     this.state = {};
-    this.user = '';
     this.stories = this.levelService.getLevelThreeStories();
     this.story = this.stories[this.counter];
     this.storyImage = this.story.image;
@@ -76,21 +74,14 @@ export class Level3Component implements OnInit {
     // #endregion
   }
 
-  ngOnInit(): void {
-    this.user = this.cookieService.get('name');
-  }
-
   initializeDescriptionWords(): void {
     this.descriptionWordsArray = this.story.description.split(" ");
-    console.log(this.descriptionWordsArray);
-    this.story.wrongWords.forEach((x) => console.log(x));
     for (let i = 0; i < this.descriptionWordsArray.length; i++) {
       let isWrong = this.story.wrongWords.filter((x) => {
         return x === this.descriptionWordsArray[i].replace(",", "").replace(".", "");
       }).length > 0;
       this.descriptionWords.push(new DescriptionWord(i, this.descriptionWordsArray[i], isWrong, false));
     }
-    console.log(this.descriptionWords);
   }
 
   listen(): void {
@@ -160,7 +151,7 @@ export class Level3Component implements OnInit {
       this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
-    this.toastr.success('Доби ново змејче!', 'Браво!');
+    this.toastr.success('Пронајде ново змејче!', 'Браво!');
 
     //reinitialize
     this.counter++;
@@ -202,16 +193,15 @@ export class Level3Component implements OnInit {
       this.cookieService.set('dragons', JSON.stringify(dragonsCookie), undefined, '/');
     }
 
-    this.toastr.success('Доби ново змејче!', 'Браво!');
+    this.toastr.success('Пронајде ново змејче!', 'Браво!');
+
+    this.showSuccess = true;
 
     let lastPassedLevel = Number(JSON.parse(this.cookieService.get('level-passed')));
     if (lastPassedLevel >= 3)
       return;
 
     this.cookieService.set('level-passed', '3', undefined, '/');
-    debugger;
-
-    this.showSuccess = true;
   }
   // #endregion
 }

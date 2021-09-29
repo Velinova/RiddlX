@@ -32,22 +32,4 @@
   </button>
 </div>
 
-<div class="position-fixed d-block overlay" style="width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; z-index: 2;" *ngIf="showSuccess">
-  <div class="dragon-success text-center" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); -ms-transform: translate(-50%,-50%);">
-    <p class="text-container" style="padding-top: 8%; font-size: 3rem;">
-      Браво {{ user }}!
-    </p>
-    <br />
-    <img src="assets/images/dragon-success.png" />
-    <div>
-      <button mat-raised-button color="accent" routerLink="/play" class="fs-2" style="height: 3.5rem">
-        Играј
-      </button>
-      &nbsp;
-      <button mat-raised-button color="accent" routerLink="/achievements" class="fs-2" style="height: 3.5rem">
-        Види ја дружината
-      </button>
-    </div>
-  </div>
-</div>
-
+<congratulations *ngIf="showSuccess"></congratulations>

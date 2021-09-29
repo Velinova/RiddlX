@@ -53,3 +53,10 @@
   width: 30%;
   margin-left: 35%;
 }
+
+@media screen and (max-width: 1024px) {
+  .buttons-wrapper {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
